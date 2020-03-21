@@ -13,7 +13,7 @@ void print(int* nums) {
 int main(void) {
 	std::ifstream ifs("input1.txt");
 	if(!ifs.is_open()) {
-		std::cerr << "INPUT ERROR\n" << endl;
+		std::cerr << "INPUT ERROR\n" <<std:: endl;
 		return -1;
 	}
 	

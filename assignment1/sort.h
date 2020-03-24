@@ -1,18 +1,33 @@
 void swap(int *num1, int *num2);
+void sort(int* numbers)
+{
+    quicksort(<#int *numbers#>, 0,9999)
+}
 
 
-void sort(int* numbers) {
-    // implement your sorting algorithm
-    int N=100;
-    for (int i=0; i<=N; i++)
+
+void quicksort(int* numbers, int First, int Last)
+{
+    if(First>=Last)
     {
-        for(int t=i+1; t<=N; t++)
+        return;
+    }
+    // implement your sorting algorithm
+    int partion=numbers[Last];
+    int pivotStartIndex=First;
+    
+    for(int k=First; k<=Last; k++)
+    {
+        if(partion>=numbers[k])
         {
-            if(numbers[i]>numbers[t])
-                swap(&numbers[i],&numbers[t]);
+            swap(&numbers[pivotStartIndex], &numbers[k]);
+            pivotStartIndex++;
         }
     }
+    quicksort(numbers, First, pivotStartIndex-2);
+    quicksort(numbers, pivotStartIndex, Last);
 }
+
 
 void swap(int *num1, int *num2)
 {

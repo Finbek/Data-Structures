@@ -1,7 +1,8 @@
 void swap(int *num1, int *num2);
+void quicksort(int *numbers, int First, int Last);
 void sort(int* numbers)
 {
-    quicksort(int *numbers, 0,9999)
+    quicksort (numbers, 0,9999);
 }
 
 

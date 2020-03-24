@@ -2,7 +2,7 @@
 #include <fstream>
 #include "sort.h"
 
-#define N 100
+#define N 10000
 
 void print(int* nums) {
 	for(int i=0; i<N; ++i) {

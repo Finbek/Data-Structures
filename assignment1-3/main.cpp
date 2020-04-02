@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <algorithm>
 #include "sort.h"
-
+#include <time.h>
 #define N 10000000
 
 void print(int* numbers) {
@@ -14,16 +14,19 @@ void print(int* numbers) {
 int compareWithAnswer(int* arr, int* arr_answer) {
 	for (int i = 0; i < N; i++) {
 		if (arr[i] != arr_answer[i])
+			
 			return 0;
 	}
 	return 1;
 }
 
 int main(void) {
+	time_t start, end;
+	double cpu_time_used;
 	int* arr;
 	int* arr_answer;
 	bool result;
-
+	start=clock();
 	arr = (int*)malloc(sizeof(int) * N);
 	arr_answer = (int*)malloc(sizeof(int) * N);
 
@@ -35,9 +38,12 @@ int main(void) {
 	std::random_shuffle(arr, arr + N);
 
 	sort(arr, N); // you should implement this function
-
+        
 	result = compareWithAnswer(arr, arr_answer);
-	std::cout << result << std::endl;
+	end=clock();
+	cpu_time_used=(double(end-start))/CLOCKS_PER_SEC;
+	std::cout<<result << std::endl;
+	std::cout<<cpu_time_used<<std::endl;
 
 	free(arr);
 	free(arr_answer);

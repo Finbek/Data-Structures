@@ -1,9 +1,8 @@
 void swap(int *num1, int *num2);
 void quicksort(int *numbers, int First, int Last);
-void sort(int* numbers)
-{   
-    int N=sizeof(numbers)-1;
-    quicksort (numbers, 0, N);
+void sort(int* numbers, int  N)
+{  
+    quicksort (numbers, 0, N-1);
 }
 
 
@@ -37,4 +36,4 @@ void swap(int *num1, int *num2)
     *num1=*num2;
     *num2=copy;
 }
-                                                              13,5          Top
+                                                              

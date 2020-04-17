@@ -57,9 +57,9 @@ int main() {
         aq.pop();
     }
 
-    if (!aq.empty()) {
-        std::cout << "list queue  empty when array queue is not\n";
-    }
+    if(!aq.empty()){
+	std::cout<<"List Queue empty when array queue is not\n";
+	}
 
     // Step 3: Stacks
     ArrayStack<int> as;
@@ -86,6 +86,5 @@ int main() {
     if (!as.empty()) {
         std::cout << "list stack empty when array stack is not\n";
     }
-
     return 0;
 }

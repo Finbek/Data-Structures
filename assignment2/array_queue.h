@@ -34,7 +34,10 @@ public:
 	}
 	else
 	{	
-		_front++;
+		for( int i=0; i<_size-1; i++)
+		{
+			_array[i]=_array[i+1];
+		}
 		_size--;
 	}
 

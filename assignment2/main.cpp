@@ -33,7 +33,7 @@ int main() {
         std::cout << double_list.back() << ' ';
         double_list.pop_back();
     }
-/*
+
 
    // Step 2: Queues
     ArrayQueue<int> aq;
@@ -43,7 +43,6 @@ int main() {
         aq.push(num);
         lq.push(num);
     }
-
     while (!lq.empty()) {
         if (aq.empty()) {
             std::cout << "array queue empty when list queue is not\n";
@@ -59,7 +58,7 @@ int main() {
     }
 
     if (!aq.empty()) {
-        std::cout << "list stack empty when array stack is not\n";
+        std::cout << "list queue  empty when array queue is not\n";
     }
 
     // Step 3: Stacks
@@ -67,10 +66,9 @@ int main() {
     ListStack<int> ls;
     for (int i = 0; i < 100; ++i) {
         int num = 7 * i % 10 + (13 * i % 10) * 10;
-        as.push(num);
+	as.push(num);
         ls.push(num);
     }
-
     while (!ls.empty()) {
         if (as.empty()) {
             std::cout << "array stack empty when list stack is not\n";
@@ -87,7 +85,7 @@ int main() {
 
     if (!as.empty()) {
         std::cout << "list stack empty when array stack is not\n";
-    }*/
+    }
 
     return 0;
 }

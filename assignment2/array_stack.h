@@ -1,15 +1,16 @@
 template <class T>
 class ArrayStack {
     T* _array;
-
+    int _top; 
+    int capacity;
     // You may add member variables.
 
 public:
     explicit ArrayStack() {
         // Constructor. Initialize member variables, etc.
-        int top=0;
-	    int capacity=1;
-	    _array=new T[capacity];
+        	_top=0;
+		capacity=10;
+	    	_array=new T[capacity];
 
     }
 
@@ -20,7 +21,11 @@ public:
 
     T& top() {
         // Return top element
-        return _array[top];
+        if(!empty())
+	{
+		T &ref = _array[_top-1];
+		return ref;
+	}
     }
 
     void pop() {
@@ -29,50 +34,48 @@ public:
     	{
 	    	return;
     	}
-	    else
-	    {
-		    top+=1;
+        else
+	{
+		_top-=1;
     	}
 
     }
 
     bool empty() {
         // Return true if empty, false otherwise
-        if(this->top==0)
+        if(_top==0)
 	    	return true;
     	else
-		    return false;
+	        return false;
     }
 
-    }
+    
 
     int size() {
         // Return number of elements
-        return this->top;
+        return _top;
     }
 
     void push(T& item) {
         // Add a new item at the top
-        if(top==capacity)
+        if(_top==capacity)
         {
             capacity*=2;
     		T* new_array=new T[capacity];
-	    	for( int i=0; i<top; i++)
+	    	for( int i=0; i<_top; i++)
 		    {
 			    new_array[i]=_array[i];
 		    }
-		    new_array[top]=item;
+		    new_array[_top]=item;
 		    delete _array;
 		    _array=new_array;
-		    delete new_array;
 
         }
         else
         {
-            _array[top]=item;
+            _array[_top]=item;
         }
-        }
-        toip+1;
+       _top+=1;
         
     }
 

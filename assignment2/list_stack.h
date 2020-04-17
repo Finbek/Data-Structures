@@ -1,5 +1,4 @@
 #include "list.h"
-
 template <class T>
 class ListStack {
     LinkedList<T> list;

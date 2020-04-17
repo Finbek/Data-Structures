@@ -2,14 +2,17 @@ template <class T>
 class ArrayQueue {
     T* _array;
     // You may add member variables.
+    int _front; 
+    int _size; 
+    int capacity;
 
 public:
     ArrayQueue() {
         // Constructor. Initialize member variables, etc
-        int front=0;
-	    int size=0;
-	    int capacity=1;
-	_array=new T[capacity];
+            _front=0;
+	    _size=0;
+	    capacity=10;
+	    _array=new T[capacity];
     }
 	
     ~ArrayQueue() {
@@ -19,7 +22,7 @@ public:
 
     T& front() {
         // Return first element
-        return this->_array[size-1];
+        return this->_array[_front];
     }
 
 
@@ -29,13 +32,10 @@ public:
 	{
 		return;
 	}
-	else if(back==front)
-	{
-		front=size=0;
-	}
 	else
-	{
-		front+=1;
+	{	
+		_front++;
+		_size--;
 	}
 
     }
@@ -43,7 +43,7 @@ public:
 
     bool empty() {
         // Return true if empty, false otherwise
-        if(this->size==0)
+        if(this->_size==0)
 		return true;
 	else
 		return false;
@@ -52,30 +52,29 @@ public:
 
     int size() {
         // Return number of elements
-        return this-> size;
+        return this->_size;
     }
 
     void push(T& item) {
         // Add a new item at the end of queue
-        if(size==capacity)
+        if(this->_size==this->capacity)
 	{
-		capacity*=2;
-		T* new_array=new T[capacity];
-		for( int i=0; i<size; i++)
+		this->capacity*=2;
+		T* new_array=new T[this->capacity];
+		for( int i=0; i<this->_size; i++)
 		{
-			new_array[i]=_array[i];
+			new_array[i]=this->_array[i];
 		}
-		new_array[size]=item;
+		new_array[_size]=item;
 		delete _array;
 		_array=new_array;
-		delete new_array;
 	}
 	else
 	{
-		_array[size]=item;
+		_array[_size]=item;
 		
 	}
-	size+=1;
+	_size+=1;
     }
 
     // You may add other member functions

@@ -8,17 +8,17 @@
 int main() {
     // Step 1: Linked List
     LinkedList<int> l;
-
+	
     for (int i = 0; i < 10; ++i) {
         l.push_back(i);
     }
-
+    
     while (!l.empty()) {
-        std::cout << l.front() << ' ';
+        std::cout<< l.front() << ' ';
         l.pop_front();
     }
     std::cout << '\n';
-
+    
     LinkedList<double> double_list;
 
     double_list.push_back(2.3);
@@ -26,16 +26,16 @@ int main() {
     double_list.insert(double_list.find(2.3), 3.7);
     double_list.insert(double_list.find(2.3), 3.1);
     double_list.insert(double_list.find(4.1), 4.3);
-    double_list.erase(double_list.find(4.1));
+    //double_list.erase(double_list.find(4.1));
 
-    std::cout << double_list.size() << '\n';
-
+    std::cout<< double_list.size() << '\n';
     while (!double_list.empty()) {
         std::cout << double_list.back() << ' ';
         double_list.pop_back();
     }
+/*
 
-    // Step 2: Queues
+   // Step 2: Queues
     ArrayQueue<int> aq;
     ListQueue<int> lq;
     for (int i = 0; i < 100; ++i) {
@@ -87,7 +87,7 @@ int main() {
 
     if (!as.empty()) {
         std::cout << "list stack empty when array stack is not\n";
-    }
+    }*/
 
     return 0;
 }

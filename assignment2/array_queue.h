@@ -7,8 +7,8 @@ public:
     ArrayQueue() {
         // Constructor. Initialize member variables, etc
         int front=0;
-	int size=0;
-	int capacity=1;
+	    int size=0;
+	    int capacity=1;
 	_array=new T[capacity];
     }
 	
@@ -19,7 +19,7 @@ public:
 
     T& front() {
         // Return first element
-        return this->_array[0];
+        return this->_array[size-1];
     }
 
 

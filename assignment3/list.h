@@ -116,7 +116,7 @@ public:
 
     void clear() {
         // Remove all nodes in list.
-        while(!empty()) {
+        while (!empty()) {
             pop_front();
         }
     }
@@ -129,17 +129,17 @@ public:
             }
         }
 
-        // return nullptr when not found.
+        // NEW REQUIREMENT: return nullptr when not found.
         return nullptr;
     }
 
     void print(void) const {
         // Print the node info
-		for (auto* curr = head->next; curr != tail; curr = curr->next) {
+        for (auto* curr = head->next; curr != tail; curr = curr->next) {
             std::cout << curr->item << ' ';
         }
         std::cout << std::endl;
-	}
+    }
 };
 
 #endif

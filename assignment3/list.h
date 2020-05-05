@@ -57,11 +57,11 @@ public:
         return head->next == tail;
     }
 
-    Node<T>* front() {
+    T& front() {
         // Return the front (first) element.
         // Note the return type.
         // It is REFERENCE (not value) of the ITEM (not Node).
-        return head->next;
+        return head->next->item;
     }
 
     T& back() {

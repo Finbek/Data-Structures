@@ -57,7 +57,7 @@ public:
 				{
 					if(cur->left==nullptr)
 					{	
-			  			TreeNode<keyT, valT>*  newNode= new TreeNode<keyT, valT>(key, val, cur);
+			  TreeNode<keyT, valT>*  newNode= new TreeNode<keyT, valT>(key, val, cur);
 						cur->left=newNode;
 						return newNode;
 					}
@@ -68,7 +68,7 @@ public:
 				{
 					if(cur->right==nullptr)
 	                	        {
-						TreeNode<keyT, valT> * newNode= new TreeNode<keyT, valT>(key, val, cur);
+					TreeNode<keyT, valT> * newNode= new TreeNode<keyT, valT>(key, val, cur);
 						cur->right=newNode;
 						return newNode;
 					}
@@ -97,20 +97,19 @@ public:
 			{	
 				if(!par)
 				{	
-					delete root;
+					delete cur;
 					root=nullptr;	
 				}
 				else if(par->left==cur)
 				{
 					par->left=nullptr;
-					cur=nullptr;
 					delete cur;
 				}
 				else
 				{
 					par->right=nullptr;
-					cur=nullptr;
 					delete cur;
+					
 				}
 						
 			}
@@ -120,22 +119,22 @@ public:
 				{
 					root=cur->left;
 					cur->left->parent=nullptr;
-					cur=nullptr;
-					delete cur;
+					delete node;
+					
 				}
 				else if(par->left->key==cur->key)
 				{	
 					cur->left->parent=par;
 					par->left=cur->left;
-					cur=nullptr;
-					delete cur;
+					delete node;
+					
 				}
 				else 
 				{
 					par->right=cur->left;
 					cur->left->parent=par;
-					cur=nullptr;
-					delete cur;
+					delete node;
+					
 				}
 			}
 			else if(!cur->left && cur->right)
@@ -144,22 +143,22 @@ public:
 				{
 					root=cur->right;
 					cur->right->parent=nullptr;
-					cur=nullptr;
-					delete cur;
+					delete node;
+					
 				}
 				else if(par->left->key==cur->key)
 				{
 					par->left=cur->right;
 					cur->right->parent=par;
-					cur=nullptr;
-					delete cur;
+					delete node;
+					
 				}
 				else
 				{
 					par->right=cur->right;
 					cur->right->parent=par;
-					cur=nullptr;
-					delete cur;
+					delete node;
+					
 				}
 			}
 			else

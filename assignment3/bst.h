@@ -29,28 +29,185 @@ class BinarySearchTree {
 public:
     BinarySearchTree() {
         // Constructor
+	root=nullptr;
     }
 
     ~BinarySearchTree() {
         // Destructor
+        clear();
+	
     }
 
     TreeNode<keyT, valT>* insert(keyT key, valT val) {
         // Insert a new node to tree and return its pointer
-    }
+        TreeNode<keyT, valT>* checker = search(key);
+	if(checker==nullptr)
+	{
+	        if(root==nullptr)
+		{
+			root=new TreeNode<keyT, valT>(key, val,nullptr);
+			return root;
+		}
+		else
+		{
+			TreeNode<keyT, valT>* cur = root; 
+			while( cur)
+			{	
+				if(key < cur->key)
+				{
+					if(cur->left==nullptr)
+					{	
+			  			TreeNode<keyT, valT>*  newNode= new TreeNode<keyT, valT>(key, val, cur);
+						cur->left=newNode;
+						return newNode;
+					}
+					else
+						cur=cur->left;
+				}
+				else
+				{
+					if(cur->right==nullptr)
+	                	        {
+						TreeNode<keyT, valT> * newNode= new TreeNode<keyT, valT>(key, val, cur);
+						cur->right=newNode;
+						return newNode;
+					}
+					else
+						cur= cur->right;
+				}					
+			}
+		}
+   	 }
+	else
+		return checker;
+}
 
     bool remove(TreeNode<keyT, valT>* node) {
-        // Remove 'node' and return true on success, false on fail
+		
+	// Remove 'node' and return true on success, false on fail
         // For example, if node is nullptr, do nothing and return false
+	 TreeNode<keyT, valT> *cur =root;	
+        TreeNode<keyT, valT> *par =nullptr;
+	if(node && search(node->key))
+	{
+		while(cur)
+		{
+		if(cur->key==node->key){
+			if(!cur->left && !cur->right)
+			{	
+				if(!par)
+				{	
+					delete root;
+					root=nullptr;	
+				}
+				else if(par->left==cur)
+				{
+					par->left=nullptr;
+					cur=nullptr;
+					delete cur;
+				}
+				else
+				{
+					par->right=nullptr;
+					cur=nullptr;
+					delete cur;
+				}
+						
+			}
+			else if(cur->left && !cur->right)
+			{
+				if(!par)
+				{
+					root=cur->left;
+					cur->left->parent=nullptr;
+					cur=nullptr;
+					delete cur;
+				}
+				else if(par->left->key==cur->key)
+				{	
+					cur->left->parent=par;
+					par->left=cur->left;
+					cur=nullptr;
+					delete cur;
+				}
+				else 
+				{
+					par->right=cur->left;
+					cur->left->parent=par;
+					cur=nullptr;
+					delete cur;
+				}
+			}
+			else if(!cur->left && cur->right)
+			{
+				if(!par)
+				{
+					root=cur->right;
+					cur->right->parent=nullptr;
+					cur=nullptr;
+					delete cur;
+				}
+				else if(par->left->key==cur->key)
+				{
+					par->left=cur->right;
+					cur->right->parent=par;
+					cur=nullptr;
+					delete cur;
+				}
+				else
+				{
+					par->right=cur->right;
+					cur->right->parent=par;
+					cur=nullptr;
+					delete cur;
+				}
+			}
+			else
+			{
+				TreeNode<keyT, valT>* suc = cur->right;
+				while(suc->left){
+					suc=suc->left;}
+				keyT tempKey=suc->key;
+				valT tempVal=suc->val;
+				remove(suc);
+				cur->key=tempKey;
+				cur->val=tempVal;
+			}
+	
+		return true;
+		}
+		else if(cur->key<node->key)
+		{
+			par=cur;
+			cur=cur->right;
+		}	
+		else
+		{
+			par=cur;
+			cur=cur->left;
+		}
+	} 
+		return false;		
     }
-
+}
     TreeNode<keyT, valT>* search(keyT key) const {
         // Find the node that has key 'key'
         // If not found, return nullptr
+        TreeNode<keyT, valT> *cur = root;
+	while( cur!=nullptr)
+		if(key == cur->key)
+			return cur;
+		else if(key<cur->key)
+			cur=cur->left;
+		else
+			cur=cur->right;
+	return nullptr; 
     }
 
     void clear() {
         // Remove all nodes in the tree
+        while(root)
+		remove(root);
     }
 
     void print_in(TreeNode<keyT, valT>* current) const {

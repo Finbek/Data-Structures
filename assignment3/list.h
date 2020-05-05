@@ -57,11 +57,11 @@ public:
         return head->next == tail;
     }
 
-    T& front() {
+    Node<T>* front() {
         // Return the front (first) element.
         // Note the return type.
         // It is REFERENCE (not value) of the ITEM (not Node).
-        return head->next->item;
+        return head->next;
     }
 
     T& back() {
@@ -99,7 +99,7 @@ public:
         // Remove the front node.
         Node<T>* target = head->next;
         erase(target);
-        delete target;
+	delete target;
     }
 
     Node<T>* push_back(T val) {
@@ -111,7 +111,7 @@ public:
         // Remove the back node.
         Node<T>* target = tail->prev;
         erase(target);
-        delete target;
+	delete target;
     }
 
     void clear() {
@@ -136,7 +136,7 @@ public:
     void print(void) const {
         // Print the node info
         for (auto* curr = head->next; curr != tail; curr = curr->next) {
-            std::cout << curr->item << ' ';
+            std::cout << curr->item.value << ' ';
         }
         std::cout << std::endl;
     }

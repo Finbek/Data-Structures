@@ -21,7 +21,7 @@ int main(void) {
         } while (number >= items);
 
         lru.touch(number);
-        rand.touch(number);
+       // rand.touch(number);
     }
 
     std::cout << "lru: " << lru.get_misses() << '\n';

@@ -7,7 +7,7 @@ void sort(int* numbers) {
     int N=100;
     for (int i=0; i<N; i++)
     {
-        for(int t=i+1; t<=N; t++)
+        for(int t=i+1; t<N; t++)
         {
             if(numbers[i]>numbers[t])
                 swap(&numbers[i],&numbers[t]);

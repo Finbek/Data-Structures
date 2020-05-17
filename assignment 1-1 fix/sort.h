@@ -5,7 +5,7 @@ void sort(int* numbers) {
 	// implement your sorting algorithm
     // implement your sorting algorithm
     int N=100;
-    for (int i=0; i<=N; i++)
+    for (int i=0; i<N; i++)
     {
         for(int t=i+1; t<=N; t++)
         {

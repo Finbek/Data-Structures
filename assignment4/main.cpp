@@ -1,6 +1,6 @@
-
-#include <iostream>
 #include "min_heap.h"
+#include "lfu.h"
+#include <iostream>
 
 void print(bool result) {
 	if (result) {
@@ -21,7 +21,7 @@ int main(void) {
 	std::cout << "pop	:" << myints[0] << std::endl;
 	MinHeap<int>::push(myints, 4, 2);
 	std::cout << "push	:" << myints[0] << std::endl;
-/*
+
 	// Part2
 	LFU<int> lfu(3);
 
@@ -31,7 +31,6 @@ int main(void) {
 	print(lfu.touch(1)); // hit
 	print(lfu.touch(2)); // hit
 	print(lfu.touch(4)); // miss
-*/
-	return 0;
 
+	return 0;
 }

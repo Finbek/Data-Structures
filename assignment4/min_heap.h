@@ -4,41 +4,6 @@
 template <typename T>
 struct MinHeap {
 	// You can add additional functions
-
-	static void make_heap(T* arr, int size, int hint = -1) {
-		// Build heap
-		if(hint==-1)
-		{
-			//heapify
-			for(int i = size/2-1; i>=0; i--){
-				PerlocateDown(arr, size, i);
-			} 
-		}
-		else{
-			//Check whether perlocateUp or PerlocateDown
-			int par = (hint-1)/2;
-			if(arr[hint]>arr[2*hint+1] || arr[hint]>arr[hint*2+2])
-			{
-				PrelocateDown(arr, size, hint);	
-			}
-			else if(arr[par]>arr[hint]){
-				PerlocateUp(arr, hint);
-			}
-		}
-	}
-
-	static void pop(T* arr, int size) {
-		// Delete minimum
-		arr[0]=arr[size-1];
-		PerlocateDown(arr, size-1, 0);
-		
-	}
-
-	static void push(T*	arr, int size, T item) {
-		// Push item
-		arr[size]=item;
-		PerlocateUp(size);
-	}
 	static void PerlocateDown(T*arr, int size, int index)
 	{
 		//This function perlocate down the given heap by the provided index, additional function
@@ -86,4 +51,40 @@ struct MinHeap {
 		*arr2=temp;
 
 	}
+
+	static void make_heap(T* arr, int size, int hint = -1) {
+		// Build heap
+		if(hint==-1)
+		{
+			//heapify
+			for(int i = size/2-1; i>=0; i--){
+				PerlocateDown(arr, size, i);
+			} 
+		}
+		else{
+			//Check whether perlocateUp or PerlocateDown
+			int par = (hint-1)/2;
+			if(arr[hint]>arr[2*hint+1] || arr[hint]>arr[hint*2+2])
+			{
+				PrelocateDown(arr, size, hint);	
+			}
+			else if(arr[par]>arr[hint]){
+				PerlocateUp(arr, hint);
+			}
+		}
+	}
+
+	static void pop(T* arr, int size) {
+		// Delete minimum
+		arr[0]=arr[size-1];
+		PerlocateDown(arr, size-1, 0);
+		
+	}
+
+	static void push(T*	arr, int size, T item) {
+		// Push item
+		arr[size]=item;
+		PerlocateUp(size);
+	}
+	
 #endif

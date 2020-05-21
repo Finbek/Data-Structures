@@ -102,9 +102,5 @@ public:
 		// Return the number of cache misses until now
 		return misses;
 	}
-	int check()
-	{
-		return size;
-	}
 };
 #endif

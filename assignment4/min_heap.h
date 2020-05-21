@@ -9,7 +9,7 @@ struct MinHeap {
 		//This function perlocate down the given heap by the provided index, additional function
 		//left child index
 		int Child=2*index+1;
-		T* value = arr[index];
+		T value = arr[index];
 		while(Child<size){
 			T minValue = value;
 			int minIndex = -1;
@@ -22,9 +22,9 @@ struct MinHeap {
 					}
 			}	
 			if(minValue==value)
-				return false;//the given index has a minimum range
+				return;//the given index has a minimum range
 			else {
-				swap(arr[index], arr[minIndex]);
+				swap(&arr[index], &arr[minIndex]);
 				index = minIndex;
 				Child=2*index+1;			
 			}
@@ -35,15 +35,16 @@ struct MinHeap {
 		while(index>0){
 			//Index of parent
 			int parent = (index-1)/2;
-			if(arr[index]>=arr[parent])
-				return false;
-			else {
-				swap(arr[index], arr[parent]);
+			if(arr[index]<arr[parent])
+			{
+				swap(&arr[index], &arr[parent]);
 				index = parent;
 			}
+			else 
+				return;
 		}
 	}
-	//Swap array items
+	//Swap array item
 	static void swap(T* arr1, T* arr2)
 	{
 		T temp= *arr1;
@@ -64,11 +65,20 @@ struct MinHeap {
 		else{
 			//Check whether perlocateUp or PerlocateDown
 			int par = (hint-1)/2;
-			if(arr[hint]>arr[2*hint+1] || arr[hint]>arr[hint*2+2])
+			int child1=hint*2+1;
+			int child2=hint*2+2;
+			if(size>child2)//checking if there is two children
+				{
+					if(arr[hint]>arr[child1] || arr[hint]>arr[child2])
+						PerlocateDown(arr, size, hint);	
+				}
+			else if(size>child1)//checking if there is a left child
+				{
+					if(arr[hint]>arr[child1])
+						PerlocateDown(arr,size,hint);
+				}
+			else if(arr[par]>arr[hint])//checking if parent is bigger than child, so I can perlocate up
 			{
-				PrelocateDown(arr, size, hint);	
-			}
-			else if(arr[par]>arr[hint]){
 				PerlocateUp(arr, hint);
 			}
 		}
@@ -84,7 +94,7 @@ struct MinHeap {
 	static void push(T*	arr, int size, T item) {
 		// Push item
 		arr[size]=item;
-		PerlocateUp(size);
+		PerlocateUp(arr, size);
 	}
-	
+};	
 #endif

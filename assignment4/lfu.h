@@ -37,7 +37,8 @@ public:
 	LFU(int _size) : size(_size) {
 		// Constructor
 		cache = new CacheItem<T>[_size];
-		elNumb=0; 
+		elNumb=0;
+		misses=0; 
 	}
 
 	~LFU() {
@@ -93,7 +94,7 @@ public:
 				MinHeap<CacheItem<T>>::push(cache, elNumb, *newItem);
 				elNumb+=1;
 			}
-			misses+=1;	
+			misses+=1;
 			return false;
 		}
 		}
@@ -101,9 +102,9 @@ public:
 		// Return the number of cache misses until now
 		return misses;
 	}
-	T& check(int i)
+	int check()
 	{
-		return cache[i].item;
+		return size;
 	}
 };
 #endif

@@ -28,7 +28,7 @@ int main(void) {
     }
 
     std::cout << "lfu: " << lfu.getMisses() << '\n';
-
+	delete[] zipfian_array;
     return 0;
 }
 

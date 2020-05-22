@@ -18,7 +18,6 @@ int main(void) {
         do {
             number = distribution(generator);
         } while (number >= items);
-
         lfu.touch(number);
     }
 

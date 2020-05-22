@@ -49,7 +49,7 @@ public:
 	bool exists(T item) {
 		// Return true if data exists in the cache
 		// Return false otherwise
-		for(int i; i<elNumb; i++)
+		for(int i=0; i<elNumb; i++)
 		{	if(cache[i].item==item)
 			{ 
 				return true;
@@ -70,7 +70,7 @@ public:
 		
 		if(exists(item))
 		{	//Find and increase the usedCount by one and heapify again
-			for(int i; i<elNumb; i++)
+			for(int i=0; i<elNumb; i++)
 			{
 				if(cache[i].item==item)
 				{	cache[i].usedCount+=1;
@@ -95,12 +95,17 @@ public:
 				elNumb+=1;
 			}
 			misses+=1;
+			delete newItem;
 			return false;
 		}
 		}
 	int getMisses() {
 		// Return the number of cache misses until now
 		return misses;
+	}
+	T& check(int index)
+	{
+		return cache[index].item;
 	}
 };
 #endif

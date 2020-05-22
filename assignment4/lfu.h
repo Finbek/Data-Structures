@@ -103,9 +103,5 @@ public:
 		// Return the number of cache misses until now
 		return misses;
 	}
-	T& check(int index)
-	{
-		return cache[index].item;
-	}
 };
 #endif

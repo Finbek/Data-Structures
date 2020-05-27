@@ -6,15 +6,20 @@
 template <typename T>
 struct Node {
     bool is_leaf;
-    std::size_t degree;
+    std::size_t degree; // maximum number of children
+    std::size_t size; // current number of children
     T* item;
     Node<T>** children;
+
+    // You may add variables if needed.
 
 public:
     Node(std::size_t degree) {
         // Constructor
         is_leaf = false;
     }
+
+    // You may add a destructor if needed.
 };
 
 template <typename T>
@@ -52,7 +57,8 @@ public:
      * and range_search(2, 4, arr, 3) is called,
      * fill arr to make arr == {2, 3, 4} and return 3.
      *
-     * You can assume result_data is safe to use for at least arr_length elements.
+     * You can assume result_data is safe to use for at least arr_length
+     * elements.
      */
 
     int range_search(T start, T end, T* result_data, int arr_length) {
@@ -60,15 +66,16 @@ public:
     }
 
     void print(Node<T>* cursor) {
+        // You must NOT edit this function.
         if (cursor != NULL) {
             for (int i = 0; i < cursor->size; ++i) {
-                std::cout << cursor->key[i] << " ";
+                std::cout << cursor->item[i] << " ";
             }
             std::cout << "\n";
 
             if (cursor->is_leaf != true) {
                 for (int i = 0; i < cursor->size + 1; ++i) {
-                    print(cursor->ptr[i]);
+                    print(cursor->children[i]);
                 }
             }
         }

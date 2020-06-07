@@ -56,20 +56,18 @@ public:
         // The data is being accessed
         // Return true on hit, false on miss
         // i.e. return true if it existed, and false when it was not
-        LRU_Unit* unit = new LRU_Unit(data, nullptr);
 	if(exists(data))
 	{	
 		TreeNode<int, Node<LRU_Unit>*>* _tn = bst.search(data);	
-		list.erase(_tn->val);
-		delete _tn->val;
-		bst.remove(_tn);
-		Node<LRU_Unit>* node = list.push_back(*unit);
-		TreeNode<int, Node<LRU_Unit>*>* _tnz = bst.insert(data, node);
-		node->item.tn=_tnz;
+		Node<LRU_Unit>* target= _tn->val;
+		list.erase(target);
+		delete target;
+		list.push_back(_tn->val->item);
 		return true;
 	}
 	else
 	{	
+        	LRU_Unit* unit = new LRU_Unit(data, nullptr);
 		if(status()<size)
 		{	
 			Node<LRU_Unit> * node = list.push_back(*unit);

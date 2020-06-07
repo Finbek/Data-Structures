@@ -27,28 +27,29 @@ int main()
 	bst.print();
 	bst.clear();
 	bst.print();
-*/	/*LRU lru(4);
+*/	LRU lru(4);
 	std::cout<<lru.touch(3)<<'\n';
 	lru.touch(2);
 	lru.touch(8);
 	std::cout<<lru.status();
 	lru.touch(7);
-	std::cout<<lru.status();*/
-//	std::cout<<lru.get_misses()<<'\n';
-//	lru.print();
-//	lru.touch(3);
-//	lru.touch(1);
-//	lru.touch(7);
-//	lru.print();
-//	std::cout<<lru.exists(2);
-//	std::cout<<lru.exists(7);
-//	std::cout<<lru.status();
-//	std::cout<<lru.exists(9)<<'\n';
-//	lru.touch(9);
-//	std::cout<<lru.exists(9)<<'\n';
-//	std::cout<<lru.get_misses()<<'\n';
-//	lru.print();
-	BinarySearchTree<int, int> bst;
+	std::cout<<lru.status();
+	std::cout<<lru.get_misses()<<'\n';
+	lru.print();
+	std::cout<<'\n';
+	lru.touch(3);
+/*	lru.touch(1);
+	lru.touch(7);
+	lru.print();
+	std::cout<<lru.exists(2);
+	std::cout<<lru.exists(7);
+	std::cout<<lru.status();
+	std::cout<<lru.exists(9)<<'\n';
+	lru.touch(9);
+	std::cout<<lru.exists(9)<<'\n';
+	std::cout<<lru.get_misses()<<'\n';
+	lru.print();*/
+/*	BinarySearchTree<int, int> bst;
 	bst.insert(5,6);
 	bst.insert(9, 0);
 	bst.insert(3,5);
@@ -68,7 +69,7 @@ int main()
 	//rand.touch(2);
 	//rand.print();
 	//LRU lru(2);	
-/*	for( int i; i<1000; ++i)
+	for( int i; i<1000; ++i)
 		bst.insert(i%200, i);
 	
 	for( int i; i<1000; ++i)

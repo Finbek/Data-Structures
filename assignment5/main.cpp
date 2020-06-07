@@ -1,6 +1,6 @@
 #include <iostream>
 #include "BPlusTree.h"
-d
+
 void print_bool(bool cond) {
     if (cond) {
         std::cout << "True\n";
@@ -12,6 +12,7 @@ void print_bool(bool cond) {
 int main() {
     BPlusTree<int> bpt(3);
     bpt.insert(1);
+//std::cout<<bpt.size();
     bpt.insert(2);
     bpt.insert(3);
     bpt.insert(4);
@@ -22,6 +23,8 @@ int main() {
 
     bpt.remove(3);
     print_bool(bpt.search(3)); // False
+    bpt.remove(42);
+    print_bool(bpt.search(42)); // False
 
     bpt.insert(6);
     bpt.insert(10);
@@ -34,4 +37,5 @@ int main() {
         std::cout << result_array[i] << ' ';
     }
     std::cout << '\n'; // 5, 6, 10
+	bpt.~BPlusTree();
 }

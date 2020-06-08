@@ -43,7 +43,7 @@ public:
 
     ~BPlusTree() {
         // Destructor
-       Deleting( root); 
+       
     }
 
     void traverse(Node<T>* cur, Node<T>* par, T data)
@@ -254,244 +254,6 @@ public:
 				
     }
 
-    void  removeIn(T data, Node<T>* cur, Node<T>* child)
-	{
-		if(cur==root)
-		{
-			if(cur->size==1)
-			{
-				if(cur->children[1]==child)
-				{
-					delete child;
-					root=cur->children[0];
-					delete cur;
-					return;
-				}
-				else if(cur->children[0]==child)
-				{
-					delete child;
-					root=cur->children[1];
-					delete cur;
-					return;
-				}
-			}
-		}
-		int pos;
-		for(pos=0; pos<cur->size; pos++)
-		{
-			if(cur->item[pos]==data)
-				break;
-		}
-		for(int i=pos; i<cur->size; i++)
-			cur->item[i]=cur->item[i+1];
-		for(pos = 0; pos<cur->size+1; pos++)
-		{
-			if(cur->children[pos]==child)
-				break;
-		}
-		for(int i = pos; i<cur->size+1; i++)
-			cur->children[i] = cur->children[i+1];
-		cur->size--;
-		if(cur->size>=degree/2-1)
-			return;
-		if(cur==root)
-			return;
-		Node<T>* par = Parent(root, cur);
-		int left, right;
-		for(pos=0; pos<par->size+1; pos++)
-		{
-			if(par->children[pos]==cur)
-			{
-				left=pos-1;
-				right=pos+1;
-				break;
-			}
-		}
-		if(left>=0)
-		{
-			Node<T> * lNode = par->children[left];
-			if(lNode->size>=degree/2)
-			{	for(int i = cur->size; i>0; i--)
-					cur->item[i]=cur->item[i-1];
-				cur->item[0] = par->item[left];
-				par->item[left]=lNode->item[lNode->size-1];
-				for(int i = cur->size+1; i>0; i--)
-					cur->children[i]=cur->children[i-1];
-				cur->children[0]=lNode->children[lNode->size];
-				cur->size++;
-				lNode->size--;
-				return;
-			}
-		}
-		if(right<=par->size)
-		{
-			Node<T> * rNode = par->children[right];
-			if(rNode->size>=degree/2)
-			{
-				cur->item[cur->size]=par->item[pos];
-				par->item[pos] = rNode->item[0];
-				for(int i=0; i<rNode->size-1; i++)
-					rNode->item[i]=rNode->item[i+1];
-				cur->children[cur->size+1]=rNode->children[0];
-				for(int i = 0; i <rNode->size; ++i)
-					rNode->children[i]=rNode->children[i+1];
-				cur->size++;
-				rNode->size--;
-				return;
-			}
-		}
-		if(left>=0)
-		{
-			Node<T>* lNode = par->children[left];
-			lNode->item[lNode->size] = par->item[left];
-			for(int i = lNode->size+1, j=0; j<cur->size; j++)
-				lNode->item[i] = cur->item[i];
-			for(int i = lNode->size+1, j=0; j<cur->size+1;j++)
-				{lNode->children[i] = cur->children[j];
-				cur->children[j]=nullptr;
-				}
-			lNode->size+=cur->size+1;
-			cur->size=0;
-			removeIn(par->item[left], par, cur);
-		}
-		else if(right<=par->size)
-		{
-			Node<T> * rNode = par->children[right];
-			cur->item[cur->size]=par->item[right-1];
-			for(int i = cur->size+1, j=0; j<rNode->size; j++)
-				cur->item[i]=rNode->item[j];
-			for(int i =cur ->size+1, j=0; j<rNode->size+1; j++)
-			{
-				cur->children[i]=rNode->children[j];
-				rNode->children[j]=nullptr;
-			}
-			cur->size+= rNode->size+1;
-			rNode->size=0;
-			removeIn(par->item[right-1], par, rNode);
-		}
-}
-
-    void remove(T data) {
-        // Remove an item from the tree.
-        if(root)
-	{
-		Node<T>* cur = root;
-		Node<T>* par;
-		int left, right;
-		while(cur->is_leaf==false)
-		{
-			for(int i =0; i<cur->size; i++)
-			{
-				par=cur;
-				left=i-1;
-				right=i+1;
-				if(data<cur->item[i])
-				{
-					cur=cur->children[i];
-					break;
-				}
-				if(i==cur->size-1)
-				{
-					left=i;
-					right=i+2;
-					cur=cur->children[i+1];
-					break;
-				}
-			}
-		}
-	bool check =false;
-	int pos;
-	for(pos = 0; pos<cur->size; pos++)
-	{
-		if(cur->item[pos]==data)
-		{
-			check=true;
-			break;
-		}
-	}
-	if(check)
-	{
-		for(int i = pos; i<cur->size; i++)
-			cur->item[i]=cur->item[i+1];
-		cur->size--;
-		if(cur==root)
-		{
-			for(int i = 0; i<degree; i++)
-				cur->children[i]=nullptr;
-			if(cur->size==0)
-			{	
-				delete cur;
-				root=nullptr;
-			}
-			return;
-		}
-		cur->children[cur->size]=cur->children[cur->size+1];
-		cur->children[cur->size+1]=nullptr;
-		if(cur->size>=degree/2)
-			return;
-		if(left>=0)
-		{
-			Node<T>* leftNode = par->children[left];
-			if(leftNode->size>=degree/2+1)
-			{
-				for( int i = cur->size; i>0; i--)
-					cur->item[i]=cur->item[i-1];
-				cur->size++;
-				cur->children[cur->size]=cur->children[cur->size-1];
-				cur->children[cur->size-1]=nullptr;
-				cur->item[0]=leftNode->item[leftNode->size-1];
-				leftNode->size--;
-				leftNode->children[leftNode->size]=cur;
-				leftNode->children[leftNode->size+1]=nullptr;
-				par->item[left]=cur->item[0];
-				return;
-			}
-		}
-		if(right<=par->size)
-		{
-			Node<T>* rightNode = par->children[right];
-			if(rightNode->size>=degree/2+1)
-			{
-				cur->size++;
-				cur->children[cur->size]=cur->children[cur->size-1];
-				cur->children[cur->size-1]=nullptr;
-				cur->item[cur->size-1]=rightNode->item[0];
-				rightNode->size--;
-				rightNode->children[rightNode->size]=rightNode->children[rightNode->size+1];
-				rightNode->children[rightNode->size+1]=nullptr;
-				for(int i =0; i<rightNode->size; i++)
-					rightNode->item[i]=rightNode->item[i+1];
-				par->item[right-1]=rightNode->item[0];
-				return;
-			}
-		}
-		if(left>=0)
-		{
-			Node<T>* lNode = par->children[left];
-			for(int i = lNode->size, j =0; j<cur->size; i++, j++)
-				lNode->item[i]=cur->item[j];
-			lNode->children[lNode->size]=nullptr;
-			lNode->size+=cur->size;
-			lNode->children[lNode->size]=cur->children[cur->size];
-			removeIn(par->item[left], par, cur);
-			delete cur;
-		}
-		else if(right<=par->size)
-		{
-			Node<T>* rNode=par->children[right];
-			for(int i = cur->size, j=0; j<rNode->size; i++, j++)
-				cur->item[i] = rNode->item[j];
-			cur->children[cur->size]=nullptr;
-			cur->size+=rNode->size;
-			cur->children[cur->size]=rNode->children[rNode->size];
-			removeIn(par->item[right-1], par, rNode);
-			delete rNode;
-		}
-	}
-		
-		
-    }
-}
     /* ------ int range_search() ------
      * Find for items with data between start and end, inclusive.
      * result_data is an array with the length of arr_length.
@@ -557,10 +319,15 @@ public:
 			if(cur->is_leaf==false)
 			{
 				for(int i = 0; i<cur->size+1; i++)
-					Deleting(cur->children[i]);
+					{	
+							Deleting(cur->children[i]);
+					}
 			}
-			if(cur->is_leaf)
-				delete cur;
+			for(int i =0; i<cur->size; i++)
+			{
+				if(cur->item[i])
+					remove(cur->item[i]);
+			}
 		}
 	}
 	int  size()

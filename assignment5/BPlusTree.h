@@ -267,7 +267,7 @@ public:
 			if(cur->item[pos]==data)
 				break;
 		}
-		for(int i=pos; i<cur->size; i++)
+		for(int i=pos; i<cur->size+1; i++)
 			cur->item[i]=cur->item[i+1];
 		for(pos = 0; pos<cur->size+1; pos++)
 		{

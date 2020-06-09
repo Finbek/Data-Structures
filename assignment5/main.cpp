@@ -26,15 +26,15 @@ int main() {
     print_bool(bpt.search(2)); // True
     print_bool(bpt.search(42)); // False
 
-     bpt.remove(3);
+     //bpt.remove(3);
      print_bool(bpt.search(3)); // False
      print_bool(bpt.search(25)); // False
      print_bool(bpt.search(351)); // False
      print_bool(bpt.search(322)); // False
-//    bpt.remove(42);
-//    print_bool(bpt.search(42)); // False
+     bpt.remove(42);
+    print_bool(bpt.search(42)); // False
 
-/*    bpt.insert(6);
+    bpt.insert(6);
     bpt.insert(10);
 
     int* result_array = new int[3];
@@ -45,5 +45,5 @@ int main() {
         std::cout << result_array[i] << ' ';
     }
     std::cout << '\n'; // 5, 6, 10
-*/	
+	
 }

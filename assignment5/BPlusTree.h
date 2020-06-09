@@ -77,34 +77,36 @@ public:
 		cur->children[cur->size]=cur->children[cur->size-1];		
 		cur->children[cur->size-1]=nullptr;
 	}
-    bool search(T data) {
-        // Return true if the item exists. Return false if it does not.
-        if(root)
-	{	
-		Node<T>* cur = root;
-		while(cur->is_leaf==false)
-			for(int i =0; i<cur->size; i++)
-			{
-				if(data<cur->item[i])
-				{
-					cur=cur->children[i];
-					break;
-				}
-				if(i==cur->size-1)
-				{
-					cur=cur->children[i+1];
- 					break;
-				}
-			}
-		for(int i=0; i<cur->size; i++)
-		{	
-			if(cur->item[i]==data)
-				return true;
-		}
-		return false;			
-	}
-		
+	
+   Node<T>* NodeSearch(Node<T>* cur, T data)
+        {
+                if(cur->is_leaf)
+                {
+                        for(int i = 0; i<cur->size; i++)
+                        {       if(cur->item[i]==data)
+                                        return cur;
+                        }
+                }
+                else
+                {
+                        for(int i = 0; i<cur->item[i]; i++)
+                        {       if(data<cur->item[i])
+                                        return NodeSearch(cur->children[i], data);
+                                if(i==cur->size-1)
+                                        return NodeSearch(cur->children[i+1],data);
+                        }
+                }
+                return nullptr;
+
    }
+        bool search(T data)
+        {
+                if(NodeSearch(root, data))
+                        return true;
+                else
+                        return false;
+        }	
+   
 	Node<T>* Parent(Node<T>* cur, Node<T>* child)
 	{
 		Node<T>* par;

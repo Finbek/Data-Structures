@@ -44,6 +44,7 @@ int main() {
     for (int i = 0; i < result; i++) {
         std::cout << result_array[i] << ' ';
     }
+    delete result_array;
     std::cout << '\n'; // 5, 6, 10
 	
 }

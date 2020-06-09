@@ -115,20 +115,7 @@ public:
 
     void InsertIn(T data, Node<T>* cur, Node<T>* child)
 	{
-		if(cur->size<degree-1)
-		{
-			int i=0;
-			while(data>cur->item[i] and i < cur->size)
-					i++;
-			for(int j = cur->size; j>i; j--)
-				cur->item[j]=cur->item[j-1];
-			for(int j = cur->size+1; j>i+1; j--)
-				cur->children[j]=cur->children[j-1];
-			cur->item[i]=data;
-			cur->size++;
-			cur->children[i+1]=child;
-		}
-		else
+		if(cur->size>=degree-1)	
 		{
 			Node<T>* newNode = new Node<T>(degree);
 			T tItem[degree];
@@ -166,7 +153,21 @@ public:
 			else
 			 	InsertIn(cur->item[cur->size], Parent(root, cur),newNode);
 		}
-	}	
+		else
+		{
+			int i=0;
+			while(data>cur->item[i] and i < cur->size)
+					i++;
+			for(int j = cur->size; j>i; j--)
+				cur->item[j]=cur->item[j-1];
+			for(int j = cur->size+1; j>i+1; j--)
+				cur->children[j]=cur->children[j-1];
+			cur->item[i]=data;
+			cur->size++;
+			cur->children[i+1]=child;
+
+		}
+}
     void insert(T data) {
         // Insert new item into the tree.
         if(!root)
@@ -197,9 +198,7 @@ public:
 					}
 				}	
 			}
-			if(cur->size<degree-1)
-				inItemInsert(cur, data);
-			else
+			if(cur->size>=degree-1)
 			{
 				Node<T> * newNode = new Node<T>(degree);
 				T temp[degree];
@@ -236,72 +235,89 @@ public:
 						InsertIn(newNode->item[0], parent, newNode);
 					}
 			}
+			else	
+				inItemInsert(cur, data);
 		}
 				
     }
+     void DeleteInternalRoot(Node<T> * cur, Node<T>* child)
+	{
+		if(cur->size==1)
+                        {
+                                if(cur->children[1]==child)
+                                {
+                                        delete child;
+                                        root=cur->children[0];
+                                        delete cur;
+                                        return;
+                                }
+                                else if(cur->children[0]==child)
+                                {
+                                        delete child;
+                                        root=cur->children[1];
+                                        delete cur;
+                                        return;
+                                }
+                        }
+	}
+      int indexOfData(Node<T>* cur, T data)
+	{
+		for(int i=0; i<cur->size; i++)
+                {
+                        if(cur->item[i]==data)
+                                return i;
+                }
+	}
+	int indexOfChild(Node<T>* cur, Node<T>* child)
+	{
+		for(int i=0; i<cur->size+1; i++)
+		{	if(cur->children[i]==child)
+				return i;
+		}
+	}
+	void shiftBackItem(Node<T>* cur, int index)
+	{
+		for(int i=index; i<cur->size+1; i++)
+                        cur->item[i]=cur->item[i+1];
+	}
+	void shiftForwardItem(Node<T>* cur)
+	{
+		for(int i = cur->size; i>0; i--)
+                         cur->item[i]=cur->item[i-1];
+	}
+	void shiftBackChild(Node<T>* cur, int index)
+	{
+		for(int i = index; i<cur->size+1; i++)
+                        cur->children[i] = cur->children[i+1];
+	}
+	void shiftForwardChild(Node<T>* cur)
+	{
+		for(int i = cur->size+1; i>0; i--)
+                        cur->children[i]=cur->children[i-1];
+	}
+	
      void  removeIn(T data, Node<T>* cur, Node<T>* child)
 	{
-		if(cur==root)
-		{
-			if(cur->size==1)
-			{
-				if(cur->children[1]==child)
-				{
-					delete child;
-					root=cur->children[0];
-					delete cur;
-					return;
-				}
-				else if(cur->children[0]==child)
-				{
-					delete child;
-					root=cur->children[1];
-					delete cur;
-					return;
-				}
-			}
-		}
-		int pos;
-		for(pos=0; pos<cur->size; pos++)
-		{
-			if(cur->item[pos]==data)
-				break;
-		}
-		for(int i=pos; i<cur->size+1; i++)
-			cur->item[i]=cur->item[i+1];
-		for(pos = 0; pos<cur->size+1; pos++)
-		{
-			if(cur->children[pos]==child)
-				break;
-		}
-		for(int i = pos; i<cur->size+1; i++)
-			cur->children[i] = cur->children[i+1];
+		if(cur!=root){
+		int index=indexOfData(cur, data);
+		shiftBackItem(cur, index);
+		index=indexOfChild(cur, child);
+		shiftBackChild(cur, index);
 		cur->size--;
-		if(cur->size>=degree/2-1)
-			return;
-		if(cur==root)
+		if(cur->size>=degree/2-1 or cur==root)
 			return;
 		Node<T>* par = Parent(root, cur);
-		int left, right;
-		for(pos=0; pos<par->size+1; pos++)
-		{
-			if(par->children[pos]==cur)
-			{
-				left=pos-1;
-				right=pos+1;
-				break;
-			}
-		}
+		index=indexOfChild(par, cur);
+		int left=index-1;
+		int right=index+1;
 		if(left>=0)
 		{
 			Node<T> * lNode = par->children[left];
 			if(lNode->size>=degree/2)
-			{	for(int i = cur->size; i>0; i--)
-					cur->item[i]=cur->item[i-1];
+			{	shiftForwardItem(cur);
 				cur->item[0] = par->item[left];
 				par->item[left]=lNode->item[lNode->size-1];
-				for(int i = cur->size+1; i>0; i--)
-					cur->children[i]=cur->children[i-1];
+				shiftForwardChild(cur);
 				cur->children[0]=lNode->children[lNode->size];
 				cur->size++;
 				lNode->size--;
@@ -313,8 +329,8 @@ public:
 			Node<T> * rNode = par->children[right];
 			if(rNode->size>=degree/2)
 			{
-				cur->item[cur->size]=par->item[pos];
-				par->item[pos] = rNode->item[0];
+				cur->item[cur->size]=par->item[index];
+				par->item[index] = rNode->item[0];
 				for(int i=0; i<rNode->size-1; i++)
 					rNode->item[i]=rNode->item[i+1];
 				cur->children[cur->size+1]=rNode->children[0];
@@ -354,7 +370,13 @@ public:
 			rNode->size=0;
 			removeIn(par->item[right-1], par, rNode);
 		}
+		}
+		else
+			DeleteInternalRoot(cur, child);
 }
+    void DeleteRoot(T data)
+	{
+		}
 
     void remove(T data) {
         // Remove an item from the tree.
@@ -384,19 +406,11 @@ public:
 				}
 			}
 		}
-	bool check =false;
-	int pos;
-	for(pos = 0; pos<cur->size; pos++)
-	{
-		if(cur->item[pos]==data)
-		{
-			check=true;
-			break;
-		}
-	}
+	bool check =search(data);
 	if(check)
 	{
-		for(int i = pos; i<cur->size; i++)
+		int index = indexOfData(cur, data);
+		for(int i = index; i<cur->size; i++)
 			cur->item[i]=cur->item[i+1];
 		cur->size--;
 		if(cur==root)

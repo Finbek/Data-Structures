@@ -43,27 +43,9 @@ public:
 
     ~BPlusTree() {
         // Destructor
-       
+       Deleting(root);
     }
 
-    void traverse(Node<T>* cur, Node<T>* par, T data)
-	{
-		while(cur->is_leaf==false)
-			par=cur;
-			for( int i=0; i<cur->size; i++)
-			{
-				if(data<cur->item[i])
-				{
-					cur=cur->children[i];
-					break;
-				}
-				if(i==cur->size-1)
-				{
-					cur=cur->children[i+1];
-					break;
-				}
-			}
-	}
 
 	void inItemInsert(Node<T>* cur, T data)
 	{
@@ -114,16 +96,18 @@ public:
  			return nullptr;
 		for(int i=0; i<cur->size+1; i++)
 		{
-			if(cur->children[i]==child)
-			{
-					par=cur;
-					return par;
-			}
-			else
+			if(cur->children[i]!=child)
 			{
 				par=Parent(cur->children[i], child);
 				if(par)
 					return par;
+			}
+					
+			else
+			{
+				par=cur;
+					return par;
+			
 			}
 		}
 		return par;
@@ -131,20 +115,7 @@ public:
 
     void InsertIn(T data, Node<T>* cur, Node<T>* child)
 	{
-		if(cur->size<degree-1)
-		{
-			int i=0;
-			while(data>cur->item[i] and i < cur->size)
-					i++;
-			for(int j = cur->size; j>i; j--)
-				cur->item[j]=cur->item[j-1];
-			for(int j = cur->size+1; j>i+1; j--)
-				cur->children[j]=cur->children[j-1];
-			cur->item[i]=data;
-			cur->size++;
-			cur->children[i+1]=child;
-		}
-		else
+		if(cur->size!<degree-1)
 		{
 			Node<T>* newNode = new Node<T>(degree);
 			T tItem[degree];
@@ -182,6 +153,21 @@ public:
 			else
 			 	InsertIn(cur->item[cur->size], Parent(root, cur),newNode);
 		}
+		else
+		{
+			int i=0;
+			while(data>cur->item[i] and i < cur->size)
+					i++;
+			for(int j = cur->size; j>i; j--)
+				cur->item[j]=cur->item[j-1];
+			for(int j = cur->size+1; j>i+1; j--)
+				cur->children[j]=cur->children[j-1];
+			cur->item[i]=data;
+			cur->size++;
+			cur->children[i+1]=child;
+		}
+		
+		
 	}	
     void insert(T data) {
         // Insert new item into the tree.
@@ -213,9 +199,7 @@ public:
 					}
 				}	
 			}
-			if(cur->size<degree-1)
-				inItemInsert(cur, data);
-			else
+			if(cur->size!<degree-1)
 			{
 				Node<T> * newNode = new Node<T>(degree);
 				T temp[degree];
@@ -252,6 +236,8 @@ public:
 						InsertIn(newNode->item[0], parent, newNode);
 					}
 			}
+			else
+			    inItemInsert(cur, data);
 		}
 				
     }
@@ -325,18 +311,10 @@ public:
 							Deleting(cur->children[i]);
 					}
 			}
-			for(int i =0; i<cur->size; i++)
-			{
-				if(cur->item[i])
-					remove(cur->item[i]);
-			}
+			delete cur;
 		}
 	}
-	int  size()
-	{
-		return root->size;
-	} 
-				
+	
 
     void print(Node<T>* cursor) {
         // You must NOT edit this function.

@@ -115,7 +115,20 @@ public:
 
     void InsertIn(T data, Node<T>* cur, Node<T>* child)
 	{
-		if(cur->size!<degree-1)
+		if(cur->size<degree-1)
+		{
+			int i=0;
+			while(data>cur->item[i] and i < cur->size)
+					i++;
+			for(int j = cur->size; j>i; j--)
+				cur->item[j]=cur->item[j-1];
+			for(int j = cur->size+1; j>i+1; j--)
+				cur->children[j]=cur->children[j-1];
+			cur->item[i]=data;
+			cur->size++;
+			cur->children[i+1]=child;
+		}
+		else
 		{
 			Node<T>* newNode = new Node<T>(degree);
 			T tItem[degree];
@@ -153,21 +166,6 @@ public:
 			else
 			 	InsertIn(cur->item[cur->size], Parent(root, cur),newNode);
 		}
-		else
-		{
-			int i=0;
-			while(data>cur->item[i] and i < cur->size)
-					i++;
-			for(int j = cur->size; j>i; j--)
-				cur->item[j]=cur->item[j-1];
-			for(int j = cur->size+1; j>i+1; j--)
-				cur->children[j]=cur->children[j-1];
-			cur->item[i]=data;
-			cur->size++;
-			cur->children[i+1]=child;
-		}
-		
-		
 	}	
     void insert(T data) {
         // Insert new item into the tree.
@@ -199,7 +197,9 @@ public:
 					}
 				}	
 			}
-			if(cur->size!<degree-1)
+			if(cur->size<degree-1)
+				inItemInsert(cur, data);
+			else
 			{
 				Node<T> * newNode = new Node<T>(degree);
 				T temp[degree];
@@ -236,12 +236,9 @@ public:
 						InsertIn(newNode->item[0], parent, newNode);
 					}
 			}
-			else
-			    inItemInsert(cur, data);
 		}
 				
     }
-
     /* ------ int range_search() ------
      * Find for items with data between start and end, inclusive.
      * result_data is an array with the length of arr_length.

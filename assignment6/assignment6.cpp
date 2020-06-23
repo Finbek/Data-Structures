@@ -75,7 +75,7 @@ list<string> FlightMap::findShortestRoute(const string &airport1, const string &
 					
    		 }
 	}
-/*
+
 	list<string> ans;
 	string dest=*dst;
 	if(!check)
@@ -87,7 +87,7 @@ list<string> FlightMap::findShortestRoute(const string &airport1, const string &
 	}
 	ans.push_front(*src);
 	return ans;
-*/	
+	
   }
 	
 			
